@@ -39,8 +39,8 @@ button {
 }
 
 .row-item {
-  width: 400px;
-  max-width: 400px;
+  width: 90%;
+  max-width: 800px;
 }
 
 .info-block {
