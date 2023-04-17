@@ -73,8 +73,8 @@ function kaprekarSteps(num) {
 
 function kaprekarStepsFull(num) {
   // Validate input
-  if (!Number.isInteger(num) || num < 1000 || num > 9999) {
-    return "Input must be a four-digit integer.";
+  if (!Number.isInteger(num) || num < 100 || num > 9999) {
+    return "Input must be a three or four-digit integer.";
   }
   
   // Define Kaprekar kernel constant
@@ -83,30 +83,34 @@ function kaprekarStepsFull(num) {
   // Initialize step counter and result string
   let steps = 0;
   let result = "";
+  let lastNum = 0;
   
   // Loop until Kaprekar kernel constant is reached
-  while (num !== KAPREKAR_CONSTANT) {
+  while (num !== lastNum) {
     // Convert number to array of digits and sort in ascending order
-    let ascDigits = num.toString().padStart(4, "0").split("").sort((a, b) => a - b);
+    let ascDigits = num.toString().padStart(num.toString().length, "0").split("").sort((a, b) => a - b);
+    // let ascDigits = num.toString().split("").sort((a, b) => a - b);
     
     // Convert number to array of digits and sort in descending order
-    let descDigits = num.toString().padStart(4, "0").split("").sort((a, b) => b - a);
+    let descDigits = num.toString().padStart(num.toString().length, "0").split("").sort((a, b) => b - a);
+    // let descDigits = num.toString().split("").sort((a, b) => b - a);
     
     // Combine digits into numbers and calculate differences
     let ascNum = ascDigits.join("");
     let descNum = descDigits.join("");
-    let diff = descNum - ascNum;
+    let diff = Number(descNum - ascNum).toString().padStart(num.toString().length, "0");
     
     // Increment step counter and add step to result string
     steps++;
-    result += `${descNum} - ${ascNum} = ${diff}\n`;
+    result += `${steps}: ${descNum} - ${ascNum} = ${diff}\n`;
     
     // Set result of current iteration as input for next iteration
+    lastNum = num;
     num = diff;
   }
   
   // Add final step to result string
-  result += `Kaprekar kernel constant: ${KAPREKAR_CONSTANT} reached in ${steps} steps`;
+  result += `Reached Kaprekar kernel constant ${num} in ${steps-1} steps`;
   
   // Return result string
   return result;
